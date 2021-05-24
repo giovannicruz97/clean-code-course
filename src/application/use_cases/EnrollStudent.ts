@@ -12,16 +12,15 @@ class EnrollStudent {
   }
 
   public execute(enrollmentRequest: EnrollmentRequest): boolean {
-    const { student: { name } } = enrollmentRequest;
+    const { student: { name, cpf } } = enrollmentRequest;
     if (!this.fullNameValidator.validate(name)) {
       throw new Error("Invalid student name");
     }
 
-    if (!this.cpfValidator.validate(enrollmentRequest.student.cpf)) {
+    if (!this.cpfValidator.validate(cpf)) {
       throw new Error("Invalid student cpf");
     }
 
-    const { student: { cpf } } = enrollmentRequest;
     if (this.students.has(cpf)) {
       throw new Error("Enrollment with duplicated student is not allowed");
     }
