@@ -1,13 +1,12 @@
-import CpfValidator from '../validators/CpfValidator';
 import EnrollmentRequest from '../../domain/EnrollmentRequest';
-import FullNameValidator from '../validators/FullNameValidator';
+import Validator from '../validators/Validator';
 
 class EnrollStudent {
   private students: Map<string, EnrollmentRequest>;
 
   constructor(
-    private cpfValidator: CpfValidator,
-    private fullNameValidator: FullNameValidator
+    private cpfValidator: Validator,
+    private fullNameValidator: Validator
   ) {
     this.students = new Map();
   }

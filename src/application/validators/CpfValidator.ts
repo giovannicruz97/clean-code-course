@@ -1,11 +1,11 @@
-import BaseValidator from "./BaseValidator";
+import Validator from "./Validator";
 
 const FACTOR_DIGIT_1 = 10;
 const FACTOR_DIGIT_2 = 11;
 const MAX_DIGITS_1 = 9;
 const MAX_DIGITS_2 = 10;
 
-class CpfValidator implements BaseValidator {
+class CpfValidator implements Validator {
   protected toDigitArray(cpf: string) {
     return [...cpf].map(digit => parseInt(digit));
   }

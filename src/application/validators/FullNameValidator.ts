@@ -1,6 +1,6 @@
-import BaseValidator from "./BaseValidator";
+import Validator from "./Validator";
 
-class FullNameValidator implements BaseValidator {
+class FullNameValidator implements Validator {
   private fullNameRegex: RegExp;
 
   constructor() {
