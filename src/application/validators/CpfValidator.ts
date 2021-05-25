@@ -39,11 +39,9 @@ class CpfValidator implements Validator {
     const cpf = this.extractDigits(inputCpf);
     if (this.isInvalidLength(cpf)) return false;
     if (this.isBlocked(cpf)) return false;
-
     const digit1 = this.calculateDigit(cpf, FACTOR_DIGIT_1, MAX_DIGITS_1);
     const digit2 = this.calculateDigit(cpf, FACTOR_DIGIT_2, MAX_DIGITS_2);
     const calculatedCheckDigit = `${digit1}${digit2}`;
-
     return this.getCheckDigit(cpf) === calculatedCheckDigit;
   }
 }
