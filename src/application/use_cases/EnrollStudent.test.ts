@@ -1,10 +1,6 @@
 import EnrollStudent from './EnrollStudent';
-import CpfValidator from '../validators/CpfValidator';
-import FullNameValidator from '../validators/FullNameValidator';
 
-const cpfValidator = new CpfValidator();
-const fullNameValidator = new FullNameValidator();
-const enrollStudent = new EnrollStudent(cpfValidator, fullNameValidator);
+const enrollStudent = new EnrollStudent();
 
 test('Should not enroll without valid student name', () => {
   const enrollmentRequest = {

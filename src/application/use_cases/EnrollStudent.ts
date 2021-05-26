@@ -1,22 +1,12 @@
 import EnrollmentRequest from '../../domain/EnrollmentRequest';
-import Validator from '../validators/Validator';
-
+import Student from '../../domain/Student';
 class EnrollStudent {
-  private students: Map<string, EnrollmentRequest>;
+  constructor(private students = new Map<string, Student>()) { }
 
-  constructor(
-    private cpfValidator: Validator,
-    private fullNameValidator: Validator
-  ) {
-    this.students = new Map();
-  }
-
-  public execute(enrollmentRequest: EnrollmentRequest): boolean {
-    const { student: { name, cpf } } = enrollmentRequest;
-    if (!this.fullNameValidator.validate(name)) throw new Error("Invalid student name");
-    if (!this.cpfValidator.validate(cpf)) throw new Error("Invalid student cpf");
-    if (this.students.has(cpf)) throw new Error("Enrollment with duplicated student is not allowed");
-    this.students.set(cpf, enrollmentRequest)
+  public execute({ student: { name, cpf } }: EnrollmentRequest): boolean {
+    const student = new Student(name, cpf);
+    if (this.students.has(student.cpf)) throw new Error("Enrollment with duplicated student is not allowed");
+    this.students.set(cpf, student);
     return true;
   }
 }
