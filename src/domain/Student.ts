@@ -1,6 +1,6 @@
-import CpfValidator from "../application/validators/CpfValidator";
-import FullNameValidator from "../application/validators/FullNameValidator";
-import Validator from "../application/validators/Validator";
+import CpfValidator from "./validators/CpfValidator";
+import FullNameValidator from "./validators/FullNameValidator";
+import Validator from "./validators/Validator";
 
 class Student {
   constructor(
