@@ -11,7 +11,7 @@ test('Should not enroll without valid student name', () => {
   };
 
   expect(() => enrollStudent.execute(enrollmentRequest))
-    .toThrowError(new Error("Invalid student name"));
+    .toThrowError(new Error("Invalid name"));
 });
 
 test('Should not enroll without valid student cpf', () => {
@@ -23,7 +23,7 @@ test('Should not enroll without valid student cpf', () => {
   };
 
   expect(() => enrollStudent.execute(enrollmentRequest))
-    .toThrowError(new Error("Invalid student cpf"));
+    .toThrowError(new Error("Invalid cpf"));
 });
 
 test('Should not enroll duplicated student', () => {
@@ -39,3 +39,7 @@ test('Should not enroll duplicated student', () => {
     enrollStudent.execute(enrollmentRequest)
   }).toThrowError(new Error("Enrollment with duplicated student is not allowed"));
 });
+
+// test('Should generate enrollment code', () => {
+
+// });

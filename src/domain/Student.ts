@@ -1,18 +1,15 @@
-import CpfValidator from "./validators/CpfValidator";
-import FullNameValidator from "./validators/FullNameValidator";
-import Validator from "./validators/Validator";
-
+import Cpf from "./Cpf";
+import Name from "./Name";
 class Student {
+  public name: Name;
+  public cpf: Cpf;
+
   constructor(
-    public name: string,
-    public cpf: string,
-    private fullNameValidator: Validator = new FullNameValidator(),
-    private cpfValidator: Validator = new CpfValidator()
+    name: string,
+    cpf: string,
   ) {
-    if (!this.fullNameValidator.validate(name)) throw new Error("Invalid student name");
-    if (!this.cpfValidator.validate(cpf)) throw new Error("Invalid student cpf");
-    this.name = name;
-    this.cpf = cpf;
+    this.name = new Name(name);
+    this.cpf = new Cpf(cpf);
   }
 }
 
