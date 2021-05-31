@@ -48,3 +48,19 @@ test("Should generate enrollment code", () => {
   const enrollment = enrollStudent.execute(enrollmentRequest)
   expect(enrollment.code).toEqual('2021EM1A0001');
 });
+
+test("Should not enroll student below minimium age", () => {
+  const enrollStudent = new EnrollStudent();
+  const enrollmentRequest = {
+    student: {
+      name: "Maria Carolina Fonseca",
+      cpf: "755.525.774-26",
+      birthDate: "2005-03-12"
+    },
+    level: "EM",
+    module: "1",
+    class: "A"
+  };
+  expect(() => enrollStudent.execute(enrollmentRequest))
+    .toThrow(new Error("Student below minimum age"));
+});
