@@ -45,5 +45,6 @@ test("Should generate enrollment code", () => {
     module: "1",
     class: "A"
   };
-  expect(() => enrollStudent.execute(enrollmentRequest)).toEqual('2021EM1A0001');
+  const enrollment = enrollStudent.execute(enrollmentRequest)
+  expect(enrollment.code).toEqual('2021EM1A0001');
 });
