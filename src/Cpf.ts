@@ -11,14 +11,11 @@ export default class Cpf {
     const FACTOR_DIGIT_2 = 11;
     const MAX_DIGITS_1 = 9;
     const MAX_DIGITS_2 = 10;
-
     cpf = this.extractDigits(cpf);
     if (this.isInvalidLength(cpf)) return false;
     if (this.isBlocked(cpf)) return false;
-
     const digit1 = this.calculateDigit(cpf, FACTOR_DIGIT_1, MAX_DIGITS_1);
     const digit2 = this.calculateDigit(cpf, FACTOR_DIGIT_2, MAX_DIGITS_2);
-
     let calculatedCheckDigit = `${digit1}${digit2}`;
     return this.getCheckDigit(cpf) == calculatedCheckDigit;
   }
