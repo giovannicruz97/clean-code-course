@@ -4,6 +4,7 @@ import Invoice from "./Invoice";
 import Level from "./Level";
 import Module from "./Module";
 import Student from "./Student";
+import Status from "./Status";
 
 export default class Enrollment {
   student: Student;
@@ -11,6 +12,7 @@ export default class Enrollment {
   module: Module;
   classroom: Classroom;
   code: EnrollmentCode;
+  status: Status;
   sequence: number;
   issueDate: Date;
   installments: number;
@@ -27,6 +29,7 @@ export default class Enrollment {
     this.sequence = sequence;
     this.issueDate = issueDate;
     this.code = new EnrollmentCode(level.code, module.code, classroom.code, issueDate, sequence);
+    this.status = new Status('enrolled');
     this.invoices = [];
     this.installments = installments;
     this.generateInvoices();

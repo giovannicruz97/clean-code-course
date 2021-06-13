@@ -1,10 +1,12 @@
 import ClassroomRepositoryMemory from "./ClassroomRepositoryMemory";
 import EnrollmentRepositoryMemory from "./EnrollmentRepositoryMemory";
 import EnrollStudent from "./EnrollStudent";
+import PayInvoice from "./PayInvoice";
 import LevelRepositoryMemory from "./LevelRepositoryMemory";
 import ModuleRepositoryMemory from "./ModuleRepositoryMemory";
 
 let enrollStudent: EnrollStudent;
+let payInvoice: PayInvoice;
 
 beforeEach(function () {
   const enrollmentRepository = new EnrollmentRepositoryMemory();
@@ -12,6 +14,7 @@ beforeEach(function () {
   const moduleRepository = new ModuleRepositoryMemory();
   const classroomRepository = new ClassroomRepositoryMemory();
   enrollStudent = new EnrollStudent(levelRepository, moduleRepository, classroomRepository, enrollmentRepository);
+  payInvoice = new PayInvoice(enrollmentRepository);
 });
 
 test("Should not enroll without valid student name", function () {
