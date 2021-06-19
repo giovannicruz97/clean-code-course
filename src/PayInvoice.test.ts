@@ -1,49 +1,35 @@
-import ClassroomRepositoryMemory from "./ClassroomRepositoryMemory";
-import EnrollmentRepositoryMemory from "./EnrollmentRepositoryMemory";
 import EnrollStudent from "./EnrollStudent";
-import PayInvoice from "./PayInvoice";
+import EnrollStudentInputData from "./EnrollStudentInputData";
 import GetEnrollment from "./GetEnrollment";
-import LevelRepositoryMemory from "./LevelRepositoryMemory";
-import ModuleRepositoryMemory from "./ModuleRepositoryMemory";
+import PayInvoice from "./PayInvoice";
+import RepositoryMemoryFactory from "./RepositoryMemoryFactory";
 
 let enrollStudent: EnrollStudent;
-let payInvoice: PayInvoice;
 let getEnrollment: GetEnrollment;
+let payInvoice: PayInvoice;
 
 beforeEach(function () {
-  const enrollmentRepository = new EnrollmentRepositoryMemory();
-  const levelRepository = new LevelRepositoryMemory();
-  const moduleRepository = new ModuleRepositoryMemory();
-  const classroomRepository = new ClassroomRepositoryMemory();
-  enrollStudent = new EnrollStudent(levelRepository, moduleRepository, classroomRepository, enrollmentRepository);
-  payInvoice = new PayInvoice(enrollmentRepository);
-  getEnrollment = new GetEnrollment(enrollmentRepository);
+  const repositoryMemoryFactory = new RepositoryMemoryFactory()
+  enrollStudent = new EnrollStudent(repositoryMemoryFactory);
+  getEnrollment = new GetEnrollment(repositoryMemoryFactory);
+  payInvoice = new PayInvoice(repositoryMemoryFactory);
 });
 
-test("Should pay enrollment invoice", function () {
-  const enrollmentRequest = {
-    student: {
-      name: "Ana Maria",
-      cpf: "526.069.490-21"
-    },
+test.only("Should pay enrollment invoice", function () {
+  const enrollmentRequest = new EnrollStudentInputData({
+    studentName: "Ana Maria",
+    studentCpf: "864.464.227-84",
+    studentBirthDate: "2002-10-10",
     level: "EM",
     module: "1",
     classroom: "A",
     installments: 12
-  };
-  const enrollment = enrollStudent.execute(enrollmentRequest);
-  const paymentRequest = {
-    code: "2021EM1A0001",
-    month: 1,
-    year: 2021,
-    amount: 1416.66
-  };
-  payInvoice.execute(paymentRequest);
-  const foundEnrollment = getEnrollment.execute(enrollment.code);
-  if (foundEnrollment) {
-    expect(foundEnrollment.installments).toBe(11);
-    expect(foundEnrollment.invoices).toHaveLength(12);
-    expect(foundEnrollment.invoices[0].amount).toBe(0);
-    expect(foundEnrollment.invoices[11].amount).toBe(1416.73);
-  }
+  });
+  enrollStudent.execute(enrollmentRequest);
+
+  payInvoice.execute("2021EM1A0001", 1, 2021, 1416.66);
+
+  const getEnrollmentOutputData = getEnrollment.execute("2021EM1A0001");
+  expect(getEnrollmentOutputData.code).toBe("2021EM1A0001");
+  expect(getEnrollmentOutputData.balance).toBe(15583.33);
 });

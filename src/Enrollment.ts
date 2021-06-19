@@ -1,10 +1,10 @@
 import Classroom from "./Classroom";
 import EnrollmentCode from "./EnrollmentCode";
 import Invoice from "./Invoice";
+import InvoiceEvent from "./InvoiceEvent";
 import Level from "./Level";
 import Module from "./Module";
 import Student from "./Student";
-import Status from "./Status";
 
 export default class Enrollment {
   student: Student;
@@ -12,7 +12,6 @@ export default class Enrollment {
   module: Module;
   classroom: Classroom;
   code: EnrollmentCode;
-  status: Status;
   sequence: number;
   issueDate: Date;
   installments: number;
@@ -29,7 +28,6 @@ export default class Enrollment {
     this.sequence = sequence;
     this.issueDate = issueDate;
     this.code = new EnrollmentCode(level.code, module.code, classroom.code, issueDate, sequence);
-    this.status = new Status('enrolled');
     this.invoices = [];
     this.installments = installments;
     this.generateInvoices();
@@ -46,5 +44,23 @@ export default class Enrollment {
     }, 0);
     const rest = Math.trunc((this.module.price - total) * 100) / 100
     this.invoices[this.installments - 1].amount = installmentAmount + rest;
+  }
+
+  getInvoiceBalance() {
+    return this.invoices.reduce((total, invoice) => {
+      total += invoice.getBalance();
+      return total;
+    }, 0);
+  }
+
+  getInvoice(month: number, year: number): Invoice | undefined {
+    const invoice = this.invoices.find(invoice => invoice.month === month && invoice.year === year);
+    return invoice;
+  }
+
+  payInvoice(month: number, year: number, amount: number) {
+    const invoice = this.getInvoice(month, year);
+    if (!invoice) throw new Error("Invalid invoice");
+    invoice.addEvent(new InvoiceEvent("payment", amount));
   }
 }
