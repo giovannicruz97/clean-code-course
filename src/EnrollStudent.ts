@@ -32,7 +32,8 @@ export default class EnrollStudent {
     if (existingEnrollment) throw new Error("Enrollment with duplicated student is not allowed");
     const enrollmentSequence = this.enrollmentRepository.count() + 1;
     const issueDate = new Date();
-    const enrollment = new Enrollment(student, level, module, classroom, issueDate, enrollmentSequence, enrollStudentInputData.installments);
+    const status = 'enrolled';
+    const enrollment = new Enrollment(student, level, module, classroom, issueDate, enrollmentSequence, enrollStudentInputData.installments, status);
     this.enrollmentRepository.save(enrollment);
     const enrollStudentOutputData = new EnrollStudentOutputData(enrollment.code.value);
     for (const invoice of enrollment.invoices) {

@@ -4,6 +4,7 @@ import Invoice from "./Invoice";
 import InvoiceEvent from "./InvoiceEvent";
 import Level from "./Level";
 import Module from "./Module";
+import Status from "./Status";
 import Student from "./Student";
 
 export default class Enrollment {
@@ -12,12 +13,13 @@ export default class Enrollment {
   module: Module;
   classroom: Classroom;
   code: EnrollmentCode;
+  status: Status;
   sequence: number;
   issueDate: Date;
   installments: number;
   invoices: Invoice[];
 
-  constructor(student: Student, level: Level, module: Module, classroom: Classroom, issueDate: Date, sequence: number, installments: number = 12) {
+  constructor(student: Student, level: Level, module: Module, classroom: Classroom, issueDate: Date, sequence: number, installments: number = 12, status: string) {
     if (student.getAge() < module.minimumAge) throw new Error("Student below minimum age");
     if (classroom.isFinished(issueDate)) throw new Error("Class is already finished");
     if (classroom.getProgress(issueDate) > 25) throw new Error("Class is already started");
@@ -28,6 +30,7 @@ export default class Enrollment {
     this.sequence = sequence;
     this.issueDate = issueDate;
     this.code = new EnrollmentCode(level.code, module.code, classroom.code, issueDate, sequence);
+    this.status = new Status(status);
     this.invoices = [];
     this.installments = installments;
     this.generateInvoices();
